@@ -56,9 +56,8 @@ const MarkerModel = ({ e, setEvent, setShowMarkerModel, setMarkers, markers}) =>
                         multiline={true}
                         value={message}
                     />
-                    <View style={styles.buttonContainer} onPress={handleSubmit}>
-                        <Text style={{color: "white"}}>POST</Text>
-                    </View>
+                    <Button title="post" style={styles.buttonContainer} onPress={handleSubmit}/>
+ 
                 </View>
             </View>
         </TouchableWithoutFeedback>
