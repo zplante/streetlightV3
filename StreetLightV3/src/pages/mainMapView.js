@@ -4,9 +4,12 @@ import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 import MarkerModel from '../components/markerModel';
+import MessageModel from '../components/messageModel';
 
 import userIcon from '../assets/icons/userIcon.png';
 
+const LAT_DELTA = 0.015;
+const LNG_DELTA = 0.0121;
 
 const MainMapView = () => {
   const [markers, setMarkers] = useState([]);
@@ -16,10 +19,12 @@ const MainMapView = () => {
   const [region, setRegion] = useState({
     latitude: 0,
     longitude: 0,
-    latitudeDelta: 0.015,
-    longitudeDelta: 0.0121,
+    latitudeDelta: LAT_DELTA,
+    longitudeDelta: LNG_DELTA,
   });
   const [regionOnUser, setRegionOnUser] = useState(true);
+  const [showMarkerMessage, setShowMarkerMessage] = useState(false);
+  const [currentMarker, setCurrentMarker] = useState(null);
 
   const mapRef = React.createRef();   
 
@@ -31,8 +36,8 @@ const MainMapView = () => {
           setRegion({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
+            latitudeDelta: LAT_DELTA,
+            longitudeDelta: LNG_DELTA,
           })
         }
       },
@@ -60,17 +65,35 @@ const MainMapView = () => {
       mapRef.current.animateToRegion({
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
-        latitudeDelta: 0.015,
-        longitudeDelta: 0.0121,
+        latitudeDelta: LAT_DELTA,
+        longitudeDelta: LNG_DELTA,
       });
       setRegionOnUser(false);
     }
-  }  
+  }
+  
+  const onMarkerPress = (e, id) => {
+    if(!showMarkerModel){
+      setRegionOnUser(false);
+      mapRef.current.animateToRegion({
+        latitude: e.latlng.latitude,
+        longitude: e.latlng.longitude,
+        latitudeDelta: LAT_DELTA,
+        longitudeDelta: LNG_DELTA,
+      });
+      let marker = markers.find(marker => marker.id === id); 
+      setCurrentMarker(marker);
+      setShowMarkerMessage(true)
+    }
+  }
 
   return (
     <View style={styles.mapcontainer}>
         {showMarkerModel &&
           <MarkerModel e={event} setEvent={setEvent} setShowMarkerModel={setShowMarkerModel} setMarkers={setMarkers} markers={markers}/>
+        }
+        {showMarkerMessage && 
+          <MessageModel currentMarker={currentMarker} setCurrentMarker={setCurrentMarker} setShowMarkerMessage={setShowMarkerMessage}/>
         }
         {location ? (
           <MapView
@@ -94,6 +117,7 @@ const MainMapView = () => {
                   <Marker
                       coordinate={marker.latlng} 
                       key={i}
+                      onPress={(event) => onMarkerPress(event,id)}
                   />
               ))}
           </MapView>
