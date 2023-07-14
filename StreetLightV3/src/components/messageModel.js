@@ -15,7 +15,7 @@ const MessageModel = ({ currentMarker, setCurrentMarker, setShowMarkerMessage}) 
         <View style={styles.modelWrapper}>
             <View style={styles.container}>
                     <View style={styles.textContainer}>
-                        <Text>
+                        <Text style={{color: "black"}}>
                             {currentMarker.message}
                         </Text>
                     </View>
@@ -33,39 +33,15 @@ const styles = StyleSheet.create({
     modelWrapper: {
         zIndex: 5,
         width: '90%',
-        height: '40%',
-        marginTop: "5%",
-        marginBottom: "5%",
+        height: '20%',
+        marginBottom: "110%",
         backgroundColor: "#b720eB",
         borderRadius: 20,
     },
-    modelWrapperKeyboardOpen: {
-        zIndex: 5,
-        width: '90%',
-        height: '90%',
-        marginTop: "5%",
-        marginBottom: "5%",
-        backgroundColor: "#b720eB",
-        borderRadius: 20,
-    },
-    buttonWrapper: {
-        width: "50%",
-    },
-    input: {
+    textContainer: {
         width: "90%",
         backgroundColor: "white",
-        justifyContent: "center",
         borderRadius: 5,
-    },
-    buttonContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: "45%",
-        height: "15%",
-        backgroundColor: "black",
-        color: "white",
-        borderRadius: 20,
-        marginTop: 10,
     }
 });
 

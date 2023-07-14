@@ -62,6 +62,7 @@ const MainMapView = () => {
     if(!showMarkerModel){
       setEvent (e.nativeEvent.coordinate);
       setShowMarkerModel(true);
+      setShowMarkerMessage(false);
       mapRef.current.animateToRegion({
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
@@ -76,12 +77,16 @@ const MainMapView = () => {
     if(!showMarkerModel){
       setRegionOnUser(false);
       mapRef.current.animateToRegion({
-        latitude: e.latlng.latitude,
-        longitude: e.latlng.longitude,
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude,
         latitudeDelta: LAT_DELTA,
         longitudeDelta: LNG_DELTA,
       });
-      let marker = markers.find(marker => marker.id === id); 
+      // this will be the proper line when the markers are pulled from the db
+      // for now we can just index them
+      //let marker = markers.find(marker => marker.id === id);
+      let marker = markers[id];
+      console.log(marker)
       setCurrentMarker(marker);
       setShowMarkerMessage(true)
     }
@@ -117,7 +122,7 @@ const MainMapView = () => {
                   <Marker
                       coordinate={marker.latlng} 
                       key={i}
-                      onPress={(event) => onMarkerPress(event,id)}
+                      onPress={(event) => onMarkerPress(event,i)}
                   />
               ))}
           </MapView>
