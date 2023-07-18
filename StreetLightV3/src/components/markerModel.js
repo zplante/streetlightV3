@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, TextInput, Button, Keyboard, LayoutAnimation, TouchableWithoutFeedback, UIManager} from 'react-native';
-import { Icon } from 'react-native-elements';
+import {Text, View, StyleSheet, TextInput, Button, Keyboard, LayoutAnimation, TouchableWithoutFeedback, UIManager, Pressable   } from 'react-native';
+import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 
@@ -35,7 +35,7 @@ const MarkerModel = ({ e, setEvent, setShowMarkerModel, setMarkers, markers}) =>
     }, []);
 
     const handleSubmit = () => {
-        setMarkers([...markers, { latlng: e, messsage: message}]);
+        setMarkers([...markers, { latlng: e, message: message}]);
         setEvent(null);
         setShowMarkerModel(false);
     }
@@ -48,6 +48,17 @@ const MarkerModel = ({ e, setEvent, setShowMarkerModel, setMarkers, markers}) =>
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={isKeyboardVisible ? styles.modelWrapperKeyboardOpen : styles.modelWrapper}>
+                <View style={styles.closeButtonWrapper}>
+                    <Icon.Button 
+                        size={30} 
+                        name="close-circle-outline" 
+                        color="black" 
+                        onPress={handleExit} 
+                        borderRadius={100} 
+                        backgroundColor={'rgba(52, 52, 52, 0)'} 
+                        iconStyle={{marginRight:0}}
+                    />
+                </View>
                 <View style={styles.container}>
                     <TextInput
                         style={styles.input}
@@ -56,8 +67,11 @@ const MarkerModel = ({ e, setEvent, setShowMarkerModel, setMarkers, markers}) =>
                         multiline={true}
                         value={message}
                     />
-                    <Button title="post" style={styles.buttonContainer} onPress={handleSubmit}/>
- 
+                    <Pressable style={styles.buttonContainer} onPress={handleSubmit}>
+                        <Text style={{color: "white"}}>
+                            POST
+                        </Text>
+                    </Pressable>
                 </View>
             </View>
         </TouchableWithoutFeedback>
@@ -104,8 +118,13 @@ const styles = StyleSheet.create({
         height: "15%",
         backgroundColor: "black",
         color: "white",
-        borderRadius: 20,
+        borderRadius: 100,
         marginTop: 10,
+    },
+    closeButtonWrapper: {
+        alignItems: 'flex-end',
+        marginRight: 5,
+        marginTop: 5,
     }
 });
 
