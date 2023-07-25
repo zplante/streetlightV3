@@ -49,15 +49,21 @@ const MarkerModel = ({ e, setEvent, setShowMarkerModel, setMarkers, markers}) =>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={isKeyboardVisible ? styles.modelWrapperKeyboardOpen : styles.modelWrapper}>
                 <View style={styles.closeButtonWrapper}>
-                    <Icon.Button 
-                        size={30} 
-                        name="close-circle-outline" 
-                        color="black" 
-                        onPress={handleExit} 
-                        borderRadius={100} 
-                        backgroundColor={'rgba(52, 52, 52, 0)'} 
-                        iconStyle={{marginRight:0}}
-                    />
+                    <Pressable 
+                        style={({ pressed }) => [
+                            {opacity: pressed ? 0.8 : 1},
+                        ]} 
+                        onPress={handleExit}>
+                            <Icon 
+                                size={30} 
+                                name="close-circle-outline" 
+                                color="black" 
+                                onPress={handleExit} 
+                                borderRadius={100} 
+                                backgroundColor={'rgba(52, 52, 52, 0)'} 
+                                iconStyle={{marginRight:0}}
+                            />
+                    </Pressable>
                 </View>
                 <View style={styles.container}>
                     <TextInput
@@ -67,7 +73,12 @@ const MarkerModel = ({ e, setEvent, setShowMarkerModel, setMarkers, markers}) =>
                         multiline={true}
                         value={message}
                     />
-                    <Pressable style={styles.buttonContainer} onPress={handleSubmit}>
+                    <Pressable 
+                        style={({ pressed }) => [
+                            {opacity: pressed ? 0.9 : 1},
+                            styles.buttonContainer
+                        ]} 
+                        onPress={handleSubmit}>
                         <Text style={{color: "white"}}>
                             POST
                         </Text>
@@ -115,7 +126,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: "45%",
-        height: "15%",
+        height: 40,
         backgroundColor: "black",
         color: "white",
         borderRadius: 100,

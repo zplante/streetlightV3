@@ -86,8 +86,7 @@ const MainMapView = () => {
       // for now we can just index them
       //let marker = markers.find(marker => marker.id === id);
       let marker = markers[id];
-      console.log(marker)
-      setCurrentMarker(marker);
+      console.log(marker);
       setShowMarkerMessage(true)
     }
   }
@@ -107,7 +106,7 @@ const MainMapView = () => {
               style={styles.map}
               initialRegion={region}
               region={region}
-              onRegionChangeComplete={(region) => setRegion(region)} 
+              onRegionChangeComplete={(region) => {setRegion(region); setRegionOnUser(false)}} 
               onPress={(e) => onMapPress(e)} >
               <Marker coordinate={location}>
                 <Image
